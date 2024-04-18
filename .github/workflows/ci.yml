@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore: ['**/*.md']
+  pull_request:
+    paths-ignore: ['**/*.md']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name == 'main' && github.sha || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    uses: ./.github/workflows/linux.yml
+
+  macos:
+    uses: ./.github/workflows/macos.yml
+
+  windows:
+    uses: ./.github/workflows/windows.yml
+
+  tetris:
+    needs: [linux, macos]
+    uses: ./.github/workflows/tetris.yml
+
+  release:
+    needs: [linux, macos, windows, tetris]
+    uses: ./.github/workflows/release.yml
+    permissions:
+      contents: write

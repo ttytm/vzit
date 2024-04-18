@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            cc: gcc
+            artifact: vzit-linux-amd64
+          - os: windows-latest
+            cc: msvc
+            artifact: vzit-windows-amd64.exe
+          - os: macos-latest
+            cc: clang
+            cflags: -cflags "-target x86_64-apple-darwin"
+            artifact: vzit-macos-amd64
+          - os: macos-latest
+            cc: clang
+            cflags: -cflags "-target arm64-apple-darwin"
+            artifact: vzit-macos-arm64
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+    env:
+      VFLAGS: -cc ${{ matrix.cc }} -prod
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/v
+            ~/.vmodules
+          key: ${{ runner.os }}-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: Setup V
+        run: ~/v/v symlink && ~/v/v -showcc self
+      - name: Setup windows path
+        if: runner.os == 'Windows'
+        run: $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+      - name: Build
+        run: v ${{ matrix.cflags }} -o ${{ matrix.artifact }} .
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+      - name: Release artifacts
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.artifact }}

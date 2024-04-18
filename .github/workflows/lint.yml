@@ -1,0 +1,35 @@
+name: Lint
+
+on:
+  workflow_call:
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/v
+            ~/.vmodules
+          key: ${{ runner.os }}-
+          fail-on-cache-miss: true
+      - name: Verify formatting
+        run: ~/v/v fmt -verify . && exit 0 || ~/v/v fmt -diff . && exit 1
+
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/v
+            ~/.vmodules
+          key: ${{ runner.os }}-
+          fail-on-cache-miss: true
+      - name: Vet
+        run: ~/v/v vet -W .

@@ -1,0 +1,31 @@
+# Binaries by extension
+*.exe
+*.exe~
+*.a
+*.so
+*.o
+*.obj
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# All sub-level build binaries
+*/**/*
+!*/**/*/
+!*/**/*.*
+
+# Output files and folders
+vzit
+build/
+zig-cache/
+zig-out/
+
+# Common editor/system specific metadata
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Private files
+.env

@@ -1,0 +1,55 @@
+name: macOS
+
+on:
+  workflow_call:
+
+jobs:
+  setup:
+    runs-on: macos-latest
+    steps:
+      - name: Setup V
+        run: |
+          curl -Lo v_macos_arm64.zip https://github.com/vlang/v/releases/latest/download/v_macos_arm64.zip
+          unzip -o v_macos_arm64.zip
+          mv v ~/v
+      - name: Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/v
+            ~/.vmodules
+          key: ${{ runner.os }}-${{ github.sha }}
+
+  test:
+    needs: setup
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        cc: [tcc, clang]
+        optimization: ['', '-W -cstrict']
+        exclude:
+          - cc: tcc
+            optimization: '-W -cstrict'
+      fail-fast: false
+    env:
+      VFLAGS: -cg -cc ${{ matrix.cc }} ${{ matrix.optimization }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/v
+            ~/.vmodules
+          key: ${{ runner.os }}-${{ github.sha }}
+          fail-on-cache-miss: true
+      - name: Setup V
+        run: ~/v/v symlink && v -showcc self && v doctor
+      - name: Setup zig
+        uses: goto-bus-stop/setup-zig@v2
+      - name: Build
+        run: v -o vzit .
+      - name: Test
+        run: |
+          ./vzit --version
+          v test .
