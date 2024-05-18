@@ -81,7 +81,7 @@ fn run(cmd cli.Command) ! {
 			}
 		}
 	}
-	if v.has_diff {
+	if v.has_diff && (v.list || v.diff) {
 		exit(1)
 	}
 }

@@ -90,13 +90,13 @@ fn test_exit_codes() {
 	os.cp_all(zig_tmod, tmp_tmod, true)!
 
 	default_res_pre_fmt := os.execute('${vzit_exe} ${tmp_tmod}')
-	assert default_res_pre_fmt.exit_code == 1
+	assert default_res_pre_fmt.exit_code == 0
 	list_res_pre_fmt := os.execute('${vzit_exe} -l ${tmp_tmod}')
 	assert list_res_pre_fmt.exit_code == 1
 	diff_res_pre_fmt := os.execute('${vzit_exe} -d ${tmp_tmod}')
 	assert diff_res_pre_fmt.exit_code == 1
 	write_res_pre_fmt := os.execute('${vzit_exe} -w ${tmp_tmod}')
-	assert write_res_pre_fmt.exit_code == 1
+	assert write_res_pre_fmt.exit_code == 0
 
 	default_res_post_fmt := os.execute('${vzit_exe} ${tmp_tmod}')
 	assert default_res_post_fmt.exit_code == 0
@@ -104,6 +104,4 @@ fn test_exit_codes() {
 	assert list_res_post_fmt.exit_code == 0
 	diff_res_post_fmt := os.execute('${vzit_exe} -d ${tmp_tmod}')
 	assert diff_res_post_fmt.exit_code == 0
-	write_res_post_fmt := os.execute('${vzit_exe} -w ${tmp_tmod}')
-	assert write_res_post_fmt.exit_code == 0
 }
