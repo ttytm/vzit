@@ -52,4 +52,4 @@ jobs:
       - name: Test
         run: |
           ./vzit --version
-          v test .
+          v -stats test .
