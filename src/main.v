@@ -22,7 +22,7 @@ fn main() {
 
 ${manifest.description}
 By default, formatted output is written to stdout.'
-		version: manifest.version
+		version: '${manifest.version}@${@VMODHASH}'
 		pre_execute: verify
 		execute: run
 		posix_mode: true
