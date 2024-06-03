@@ -2,17 +2,15 @@ import os
 import time
 import v.util.diff
 
-const vzit_exe = os.join_path(@VMODROOT, 'vzit')
 const zig_exe = os.find_abs_path_of_executable('zig') or { panic('failed to find `zig`') }
 const zig_tmod = os.join_path(@VMODROOT, 'tests', 'basic')
-const tmp_tmod = os.join_path(os.temp_dir(), 'vzit', 'tests', 'basic')
+const tmp_dir = os.join_path(os.temp_dir(), 'vzit')
+const tmp_tmod = os.join_path(tmp_dir, 'tests', 'basic')
+const vzit_exe = os.join_path(tmp_dir, 'vzit')
 
 fn testsuite_begin() {
 	os.mkdir_all(tmp_tmod) or {}
-	if !os.exists(vzit_exe) {
-		os.chdir(@VMODROOT)!
-		os.execute_opt('${@VEXE} -o vzit .')!
-	}
+	os.execute_opt('${@VEXE} -o ${vzit_exe} ${@VMODROOT}')!
 }
 
 fn testsuite_end() {
