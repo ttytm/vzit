@@ -56,6 +56,12 @@ By default, formatted output is written to stdout.'
 				description: '[TODO] Allows usage when kept in custody in a space-indented codebase.'
 			},
 		]
+		commands: [
+			cli.Command{
+				name: 'update'
+				execute: update
+			},
+		]
 	}
 	app.parse(os.args)
 }
