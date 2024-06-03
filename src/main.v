@@ -28,8 +28,8 @@ By default, formatted output is written to stdout.'
 		posix_mode: true
 		defaults: struct {
 			man: false
-			help: cli.CommandFlag{false, true}
-			version: cli.CommandFlag{false, true}
+			help: cli.CommandFlag{true, true}
+			version: cli.CommandFlag{true, true}
 		}
 		flags: [
 			cli.Flag{
