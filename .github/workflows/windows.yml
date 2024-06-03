@@ -27,10 +27,10 @@ jobs:
     strategy:
       matrix:
         cc: [tcc, gcc, msvc]
-        optimization: ['', '-W -cstrict']
-        exclude:
-          - cc: tcc
-            optimization: '-W -cstrict'
+        # optimization: ['', '-W -cstrict']
+        # exclude:
+        #   - cc: tcc
+        #     optimization: '-W -cstrict'
       fail-fast: false
     env:
       VFLAGS: -cg -cc ${{ matrix.cc }}

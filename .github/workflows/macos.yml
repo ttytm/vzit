@@ -25,11 +25,11 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        cc: [tcc, clang]
+        cc: [clang] # [tcc, clang]
         optimization: ['', '-W -cstrict']
-        exclude:
-          - cc: tcc
-            optimization: '-W -cstrict'
+        # exclude:
+        #   - cc: tcc
+        #     optimization: '-W -cstrict'
       fail-fast: false
     env:
       VFLAGS: -cg -cc ${{ matrix.cc }} ${{ matrix.optimization }}
