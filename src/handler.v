@@ -12,12 +12,8 @@ fn format(input string, fname string) !string {
 	mut res := []string{}
 	for l in input_after_zig_fmt.split_into_lines() {
 		mut indent_level := 0
-		for {
-			if l[indent_level * space_num..].starts_with(space_indent) {
-				indent_level++
-			} else {
-				break
-			}
+		for l[indent_level * space_num..].starts_with(space_indent) {
+			indent_level++
 		}
 		if indent_level > 0 {
 			res << '${'\t'.repeat(indent_level)}${l[indent_level * space_num..]}'
