@@ -34,9 +34,9 @@ Flags:
   -w  --write         Modifies non-conforming files in-place.
   -l  --list          Prints paths of non-conforming files. Exits with an error if any are found.
   -d  --diff          Prints differences of non-conforming files. Exits with an error if any are found.
-  -i  --indentation   [possible values: 'tabs', 'smart', '<num>'(spaces)].
+  -i  --indentation   Sets the indentation used [possible values: 'tabs', 'smart', '<num>'(spaces)].
                       - tabs: used by default.
-                      - smart: detects the indentation style.
+                      - smart: based on the initial indentations in a file.
                       - <num>: number of spaces.
   -h  --help          Prints help information.
   -v  --version       Prints version information.

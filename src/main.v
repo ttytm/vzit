@@ -62,7 +62,7 @@ By default, formatted output is written to stdout.'
 				flag: .string
 				name: 'indentation'
 				abbrev: 'i'
-				description: "[possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: detects the indentation style.\n- <num>: [TODO] currently, passing a number uses the default zig fmt indentation of 4 spaces."
+				description: "Sets the indentation used [possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: based on the initial indentations in a file.\n- <num>: number of spaces."
 			},
 		]
 		commands: [
