@@ -1,18 +1,35 @@
 import os
 import v.util.diff
 
-const space_num = 4
-const space_indent = ' '.repeat(space_num)
+const zig_fmt_space_num = 4
+const space_indent = ' '.repeat(zig_fmt_space_num)
 
-fn format(input string, input_after_zig_fmt string) !string {
+fn format_tabs(input string, input_after_zig_fmt string) !string {
 	mut res := []string{}
 	for l in input_after_zig_fmt.split_into_lines() {
 		mut indent_level := 0
-		for l[indent_level * space_num..].starts_with(space_indent) {
+		for l[indent_level * zig_fmt_space_num..].starts_with(space_indent) {
 			indent_level++
 		}
 		if indent_level > 0 {
-			res << '${'\t'.repeat(indent_level)}${l[indent_level * space_num..]}'
+			res << '${'\t'.repeat(indent_level)}${l[indent_level * zig_fmt_space_num..]}'
+		} else {
+			res << l
+		}
+	}
+	return res.join_lines() + '\n'
+}
+
+fn format_spaces(input string, input_after_zig_fmt string, space_num u8) !string {
+	mut res := []string{}
+	indent := ' '.repeat(space_num)
+	for l in input_after_zig_fmt.split_into_lines() {
+		mut indent_level := 0
+		for l[indent_level * zig_fmt_space_num..].starts_with(space_indent) {
+			indent_level++
+		}
+		if indent_level > 0 {
+			res << '${indent.repeat(indent_level)}${l[indent_level * zig_fmt_space_num..]}'
 		} else {
 			res << l
 		}
@@ -43,12 +60,12 @@ fn (mut v Vzit) handle(path string) ! {
 	os.execute_opt('zig fmt ${tmp_path}')!
 	input_after_zig_fmt := os.read_file(tmp_path)!
 
-	res := if v.indentation == .spaces || (v.indentation == .smart && has_space_indent(input)) {
-		// Until support for spaces is extended to include features like viewing diffs,
-		// just zig fmt when a space-indented file is encountered without using the force flag.
+	res := if v.indentation is u8 {
+		format_spaces(input, input_after_zig_fmt, v.indentation)!
+	} else if (v.indentation as IndentationStyle) == .smart && has_space_indent(input) {
 		input_after_zig_fmt
 	} else {
-		format(input, input_after_zig_fmt)!
+		format_tabs(input, input_after_zig_fmt)!
 	}
 
 	if !v.write && !v.diff && !v.list {

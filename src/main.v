@@ -16,10 +16,11 @@ mut:
 	has_diff bool
 }
 
-enum Indentation {
+type Indentation = IndentationStyle | u8
+
+enum IndentationStyle {
 	tabs
 	smart
-	spaces
 }
 
 fn main() {
@@ -104,12 +105,12 @@ fn run(cmd cli.Command) ! {
 
 fn parse_indentation(raw_style string) Indentation {
 	if raw_style == '' {
-		return .tabs
+		return IndentationStyle.tabs
 	}
 	return match true {
-		raw_style == 'tabs' { .tabs }
-		raw_style == 'smart' { .smart }
-		raw_style.int() != 0 { .spaces }
+		raw_style == 'tabs' { IndentationStyle.tabs }
+		raw_style == 'smart' { IndentationStyle.smart }
+		raw_style.u8() != 0 { raw_style.u8() }
 		else { print_err_and_exit('invalid indentation value `${raw_style}`') }
 	}
 }

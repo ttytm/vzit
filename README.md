@@ -37,7 +37,7 @@ Flags:
   -i  --indentation   [possible values: 'tabs', 'smart', '<num>'(spaces)].
                       - tabs: used by default.
                       - smart: detects the indentation style.
-                      - <num>: [TODO] currently, passing a number uses the default zig fmt indentation of 4 spaces.
+                      - <num>: number of spaces.
   -h  --help          Prints help information.
   -v  --version       Prints version information.
 
