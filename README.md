@@ -32,7 +32,7 @@ Simple tool that enables the use of tabs in Zig projects and allows to view form
 - #### Usage
 
   ```
-  Usage: vzit [flags] <path>
+  Usage: vzit [flags] [commands] <path>
 
   Formatter and diff viewer utilizing zig fmt.
   By default, formatted output is written to stdout.
@@ -44,6 +44,11 @@ Simple tool that enables the use of tabs in Zig projects and allows to view form
         --use-spaces    [TODO] Allows usage when kept in custody in a space-indented codebase.
     -h  --help          Prints help information.
     -v  --version       Prints version information.
+
+  Commands:
+    update              Updates vizit to the latest version.
+    help                Prints help information.
+    version             Prints version information.
   ```
 
 ## Disclaimer

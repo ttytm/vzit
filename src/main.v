@@ -59,6 +59,7 @@ By default, formatted output is written to stdout.'
 		commands: [
 			cli.Command{
 				name: 'update'
+				description: 'Updates vizit to the latest version.'
 				execute: update
 			},
 		]
