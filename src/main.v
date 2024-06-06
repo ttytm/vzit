@@ -11,9 +11,15 @@ struct Vzit {
 	write bool
 	list  bool
 	diff  bool
-	force bool
+	style Style
 mut:
 	has_diff bool
+}
+
+enum Style {
+	tabs
+	smart
+	spaces
 }
 
 fn main() {
@@ -24,7 +30,6 @@ fn main() {
 ${manifest.description}
 By default, formatted output is written to stdout.'
 		version: '${manifest.version}@${@VMODHASH}'
-		required_args: 1
 		posix_mode: true
 		pre_execute: verify
 		execute: run
@@ -53,21 +58,14 @@ By default, formatted output is written to stdout.'
 				description: 'Prints differences of non-conforming files. Exits with an error if any are found.'
 			},
 			cli.Flag{
-				flag: .bool
-				name: 'force'
-				abbrev: 'f'
-				description: 'Enforces indentation style instead of detecting it.'
-			},
-			cli.Flag{
-				flag: .bool
-				name: 'spaces'
-				description: '[TODO] Allows usage of all features when kept in custody in a space-indented codebase.\nIf the flag is passed without specifying a number, 4 spaces are used for indentation.\nTabs are used by default.'
+				flag: .string
+				name: 'style'
+				description: "[possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: detects the indentation style. Supports vzit features like viewing diffs.\n- <num>: explicit spaces support is yet to be implemented. For now, passing a number forwards formatting to zig fmt."
 			},
 		]
 		commands: [
 			cli.Command{
 				name: 'update'
-				required_args: 0
 				description: 'Updates vizit to the latest version.'
 				execute: update
 			},
@@ -81,7 +79,7 @@ fn run(cmd cli.Command) ! {
 		write: cmd.flags.get_bool('write')!
 		list: cmd.flags.get_bool('list')!
 		diff: cmd.flags.get_bool('diff')!
-		force: cmd.flags.get_bool('force')!
+		style: parse_style(cmd.flags.get_string('style')!)
 	}
 	for path in cmd.args {
 		if os.is_dir(path) {
@@ -103,18 +101,23 @@ fn run(cmd cli.Command) ! {
 	}
 }
 
+fn parse_style(raw_style string) Style {
+	if raw_style == '' {
+		return .tabs
+	}
+	return match true {
+		raw_style == 'tabs' { .tabs }
+		raw_style == 'smart' { .smart }
+		raw_style.int() != 0 { .spaces }
+		else { print_err_and_exit('invalid style `${raw_style}`') }
+	}
+}
+
 fn verify(cmd cli.Command) ! {
 	os.find_abs_path_of_executable('zig') or { print_err_and_exit('failed to find `zig`') }
 	if cmd.args.len == 0 {
 		cmd.execute_help()
 		exit(2)
-	}
-	if cmd.flags.get_bool('spaces')! {
-		print_err_and_exit('Usage of vzit with space-indented files is yet to be implemented.
-
-Visit its repository to support the project and to show interest in new features:
-${term.ecolorize(term.italic,
-			'https://github.com/ttytm/vzit')}')
 	}
 	mut has_invalid_path := false
 	for path in cmd.args {
