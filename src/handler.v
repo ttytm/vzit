@@ -41,7 +41,7 @@ fn has_space_indent(input string) bool {
 
 fn (mut v Vzit) handle(path string) ! {
 	input := os.read_file(path)!
-	if has_space_indent(input) {
+	if !v.force && has_space_indent(input) {
 		// Until support for spaces is extended to include features like viewing diffs,
 		// just zig fmt when a space-indented file is encountered without using the force flag.
 		os.execute_opt('zig fmt ${path}')!

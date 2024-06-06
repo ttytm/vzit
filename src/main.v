@@ -11,6 +11,7 @@ struct Vzit {
 	write bool
 	list  bool
 	diff  bool
+	force bool
 mut:
 	has_diff bool
 }
@@ -53,6 +54,12 @@ By default, formatted output is written to stdout.'
 			},
 			cli.Flag{
 				flag: .bool
+				name: 'force'
+				abbrev: 'f'
+				description: 'Enforces indentation style instead of detecing it.'
+			},
+			cli.Flag{
+				flag: .bool
 				name: 'use-spaces'
 				description: '[TODO] Allows usage when kept in custody in a space-indented codebase.'
 			},
@@ -74,6 +81,7 @@ fn run(cmd cli.Command) ! {
 		write: cmd.flags.get_bool('write')!
 		list: cmd.flags.get_bool('list')!
 		diff: cmd.flags.get_bool('diff')!
+		force: cmd.flags.get_bool('force')!
 	}
 	for path in cmd.args {
 		if os.is_dir(path) {
