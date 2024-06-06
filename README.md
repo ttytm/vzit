@@ -34,7 +34,7 @@ Flags:
   -w  --write         Modifies non-conforming files in-place.
   -l  --list          Prints paths of non-conforming files. Exits with an error if any are found.
   -d  --diff          Prints differences of non-conforming files. Exits with an error if any are found.
-      --indentation   [possible values: 'tabs', 'smart', '<num>'(spaces)].
+  -i  --indentation   [possible values: 'tabs', 'smart', '<num>'(spaces)].
                       - tabs: used by default.
                       - smart: detects the indentation style.
                       - <num>: [TODO] currently, passing a number uses the default zig fmt indentation of 4 spaces.
