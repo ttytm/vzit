@@ -21,7 +21,7 @@ fn test_basic() {
 	os.cp_all(zig_tmod, tmp_tmod, true)!
 
 	// Should list all .zig files in the module as unformatted.
-	list_res := os.execute('${vzit_exe} -l -f ${tmp_tmod}')
+	list_res := os.execute('${vzit_exe} -l ${tmp_tmod}')
 	list_res_lines := list_res.output.split_into_lines()
 	assert list_res_lines == os.walk_ext(tmp_tmod, '.zig').filter(!it.contains('zig-cache'))
 
@@ -29,18 +29,17 @@ fn test_basic() {
 	tfile_path1 := os.join_path(tmp_tmod, 'build.zig')
 	mtime_pre_fmt1 := os.file_last_mod_unix(tfile_path1)
 	time.sleep(time.second * 1)
-	// `build.zig` has initial tab indentation, format without force flag.
 	os.execute('${vzit_exe} -w ${tfile_path1}')
 	mtime_post_fmt1 := os.file_last_mod_unix(tfile_path1)
 	assert mtime_post_fmt1 > mtime_pre_fmt1
 
 	// Should NOT modify an already formatted file again.
-	os.execute('${vzit_exe} -w -f ${tfile_path1}')
+	os.execute('${vzit_exe} -w ${tfile_path1}')
 	time.sleep(time.second * 1)
 	assert mtime_post_fmt1 == os.file_last_mod_unix(tfile_path1)
 
 	// Should print a shorter list after files have been formatted.
-	list_res2 := os.execute('${vzit_exe} -l -f ${tmp_tmod}')
+	list_res2 := os.execute('${vzit_exe} -l ${tmp_tmod}')
 	list_res2_lines := list_res2.output.split_into_lines()
 	assert list_res2_lines.len == list_res_lines.len - 1
 	assert tfile_path1 !in list_res2_lines
@@ -48,18 +47,18 @@ fn test_basic() {
 	// Should work with multiple paths.
 	tfile_path2 := os.join_path(tmp_tmod, 'src', 'root.zig')
 	mtime_pre_fmt2 := os.file_last_mod_unix(tfile_path2)
-	os.execute('${vzit_exe} -w -f ${tfile_path1} ${tfile_path2}')
+	os.execute('${vzit_exe} -w ${tfile_path1} ${tfile_path2}')
 	time.sleep(time.second * 1)
 	assert os.file_last_mod_unix(tfile_path2) > mtime_pre_fmt2
-	list_res3 := os.execute('${vzit_exe} -l -f ${tmp_tmod}')
+	list_res3 := os.execute('${vzit_exe} -l ${tmp_tmod}')
 	list_res3_lines := list_res3.output.split_into_lines()
 	assert list_res3.exit_code == 1
 	assert list_res3_lines.len == list_res_lines.len - 2
 	assert list_res3_lines.len > 0
 
 	// Should format all files in a directory.
-	os.execute('${vzit_exe} -w -f ${tmp_tmod}')
-	list_res4 := os.execute('${vzit_exe} -l -f ${tmp_tmod}')
+	os.execute('${vzit_exe} -w ${tmp_tmod}')
+	list_res4 := os.execute('${vzit_exe} -l ${tmp_tmod}')
 	assert list_res4.exit_code == 0
 	assert list_res4.output == ''
 

@@ -46,7 +46,7 @@ jobs:
             ln -s $(brew --cellar)/glfw/3.4/include/GLFW $(brew --cellar)/libepoxy/1.5.10/include/GLFW
           fi
       - name: Format
-        run: vzit -w -f .
+        run: vzit -w .
       - name: Verify formatting
         run: vzit -d .
       - name: Build formatted tetris
