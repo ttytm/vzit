@@ -17,42 +17,35 @@ Simple tool that enables the use of tabs in Zig projects and allows to view form
 
 ## Feature Overview
 
-- #### Use tabs for indentation, format with zig fmt
+- Use tabs for indentation while using zig fmt (we don't want to miss the amazing work that goes into zig format)
+- View diffs with your preferred tool
 
-  https://github.com/ttytm/vzit/assets/34311583/b990a7c2-1863-403f-8274-6718b77ea968
+https://github-production-user-asset-6210df.s3.amazonaws.com/34311583/337395033-be5d0270-713f-495a-9f91-15665841eb64.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240606%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240606T184324Z&X-Amz-Expires=300&X-Amz-Signature=2df83e6313c9b80dfaab603825d552c4858a2876cbb7331afea85da1547f8097&X-Amz-SignedHeaders=host&actor_id=34311583&key_id=0&repo_id=802144933
 
-- #### View diffs with your preferred tool
+## Usage
 
-  <!-- prettier-ignore -->
-  |   |   |
-  | - | - |
-  | <img width=506 src="https://github.com/ttytm/vzit/assets/34311583/9a42d2ff-f172-4859-b039-b0c2934092b1"> | <img width=506 src="https://github.com/ttytm/vzit/assets/34311583/79e85cf1-02c0-4a06-825c-279c60d6c38a"> |
-  | _Automatically detected (e.g., `delta`)_ | _Or explicitly set (e.g., `diff`)_ |
+```
+Usage: vzit [flags] [commands] <path>
 
-- #### Usage
+Formatter and diff viewer utilizing zig fmt.
+By default, formatted output is written to stdout.
 
-  ```
-  Usage: vzit [flags] [commands] <path>
+Flags:
+  -w  --write         Modifies non-conforming files in-place.
+  -l  --list          Prints paths of non-conforming files. Exits with an error if any are found.
+  -d  --diff          Prints differences of non-conforming files. Exits with an error if any are found.
+  -f  --force         Enforces indentation style instead of detecting it.
+      --spaces        [TODO] Allows usage of all features when kept in custody in a space-indented codebase.
+                      If the flag is passed without specifying a number, 4 spaces are used for indentation.
+                      Tabs are used by default.
+  -h  --help          Prints help information.
+  -v  --version       Prints version information.
 
-  Formatter and diff viewer utilizing zig fmt.
-  By default, formatted output is written to stdout.
-
-  Flags:
-    -w  --write         Modifies non-conforming files in-place.
-    -l  --list          Prints paths of non-conforming files. Exits with an error if any are found.
-    -d  --diff          Prints differences of non-conforming files. Exits with an error if any are found.
-    -f  --force         Enforces indentation style instead of detecting it.
-        --spaces        [TODO] Allows usage of all features when kept in custody in a space-indented codebase.
-                        If the flag is passed without specifying a number, 4 spaces are used for indentation.
-                        Tabs are used by default.
-    -h  --help          Prints help information.
-    -v  --version       Prints version information.
-
-  Commands:
-    update              Updates vizit to the latest version.
-    help                Prints help information.
-    version             Prints version information.
-  ```
+Commands:
+  update              Updates vizit to the latest version.
+  help                Prints help information.
+  version             Prints version information.
+```
 
 ## Disclaimer
 
