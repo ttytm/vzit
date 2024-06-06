@@ -43,7 +43,7 @@ fn (mut v Vzit) handle(path string) ! {
 	os.execute_opt('zig fmt ${tmp_path}')!
 	input_after_zig_fmt := os.read_file(tmp_path)!
 
-	res := if v.style != .tabs && has_space_indent(input) {
+	res := if v.indentation != .tabs && has_space_indent(input) {
 		// Until support for spaces is extended to include features like viewing diffs,
 		// just zig fmt when a space-indented file is encountered without using the force flag.
 		input_after_zig_fmt

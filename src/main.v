@@ -8,15 +8,15 @@ const tmp_dir = os.join_path(os.temp_dir(), 'vzit')
 const env_diff_tool = 'VZIT_DIFF_CMD'
 
 struct Vzit {
-	write bool
-	list  bool
-	diff  bool
-	style Style
+	write       bool
+	list        bool
+	diff        bool
+	indentation Indentation
 mut:
 	has_diff bool
 }
 
-enum Style {
+enum Indentation {
 	tabs
 	smart
 	spaces
@@ -59,7 +59,7 @@ By default, formatted output is written to stdout.'
 			},
 			cli.Flag{
 				flag: .string
-				name: 'style'
+				name: 'indentation'
 				description: "[possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: detects the indentation style.\n- <num>: [TODO] currently, passing a number uses the default zig fmt indentation of 4 spaces."
 			},
 		]
@@ -79,7 +79,7 @@ fn run(cmd cli.Command) ! {
 		write: cmd.flags.get_bool('write')!
 		list: cmd.flags.get_bool('list')!
 		diff: cmd.flags.get_bool('diff')!
-		style: parse_style(cmd.flags.get_string('style')!)
+		indentation: parse_indentation(cmd.flags.get_string('indentation')!)
 	}
 	for path in cmd.args {
 		if os.is_dir(path) {
@@ -101,7 +101,7 @@ fn run(cmd cli.Command) ! {
 	}
 }
 
-fn parse_style(raw_style string) Style {
+fn parse_indentation(raw_style string) Indentation {
 	if raw_style == '' {
 		return .tabs
 	}
@@ -109,7 +109,7 @@ fn parse_style(raw_style string) Style {
 		raw_style == 'tabs' { .tabs }
 		raw_style == 'smart' { .smart }
 		raw_style.int() != 0 { .spaces }
-		else { print_err_and_exit('invalid style `${raw_style}`') }
+		else { print_err_and_exit('invalid indentation value `${raw_style}`') }
 	}
 }
 
