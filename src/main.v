@@ -23,9 +23,10 @@ fn main() {
 ${manifest.description}
 By default, formatted output is written to stdout.'
 		version: '${manifest.version}@${@VMODHASH}'
+		required_args: 1
+		posix_mode: true
 		pre_execute: verify
 		execute: run
-		posix_mode: true
 		defaults: struct {
 			man: false
 			help: cli.CommandFlag{true, true}
@@ -59,6 +60,7 @@ By default, formatted output is written to stdout.'
 		commands: [
 			cli.Command{
 				name: 'update'
+				required_args: 0
 				description: 'Updates vizit to the latest version.'
 				execute: update
 			},
