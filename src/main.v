@@ -56,12 +56,12 @@ By default, formatted output is written to stdout.'
 				flag: .bool
 				name: 'force'
 				abbrev: 'f'
-				description: 'Enforces indentation style instead of detecing it.'
+				description: 'Enforces indentation style instead of detecting it.'
 			},
 			cli.Flag{
 				flag: .bool
-				name: 'use-spaces'
-				description: '[TODO] Allows usage when kept in custody in a space-indented codebase.'
+				name: 'spaces'
+				description: '[TODO] Allows usage of all features when kept in custody in a space-indented codebase.\nIf the flag is passed without specifying a number, 4 spaces are used for indentation.\nTabs are used by default.'
 			},
 		]
 		commands: [
@@ -109,7 +109,7 @@ fn verify(cmd cli.Command) ! {
 		cmd.execute_help()
 		exit(2)
 	}
-	if cmd.flags.get_bool('use-spaces')! {
+	if cmd.flags.get_bool('spaces')! {
 		print_err_and_exit('Usage of vzit with space-indented files is yet to be implemented.
 
 Visit its repository to support the project and to show interest in new features:
