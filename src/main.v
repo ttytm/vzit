@@ -60,7 +60,7 @@ By default, formatted output is written to stdout.'
 			cli.Flag{
 				flag: .string
 				name: 'style'
-				description: "[possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: detects the indentation style. Supports vzit features like viewing diffs.\n- <num>: explicit spaces support is yet to be implemented. For now, passing a number forwards formatting to zig fmt."
+				description: "[possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: detects the indentation style.\n- <num>: [TODO] currently, passing a number uses the default zig fmt indentation of 4 spaces."
 			},
 		]
 		commands: [

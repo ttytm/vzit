@@ -4,11 +4,7 @@ import v.util.diff
 const space_num = 4
 const space_indent = ' '.repeat(space_num)
 
-fn format(input string, fname string) !string {
-	tmp_path := os.join_path(tmp_dir, fname)
-	os.write_file(tmp_path, input)!
-	os.execute_opt('zig fmt ${tmp_path}')!
-	input_after_zig_fmt := os.read_file(tmp_path)!
+fn format(input string, input_after_zig_fmt string) !string {
 	mut res := []string{}
 	for l in input_after_zig_fmt.split_into_lines() {
 		mut indent_level := 0
@@ -41,14 +37,20 @@ fn has_space_indent(input string) bool {
 
 fn (mut v Vzit) handle(path string) ! {
 	input := os.read_file(path)!
-	if v.style != .tabs && has_space_indent(input) {
+
+	tmp_path := os.join_path(tmp_dir, os.file_name(path))
+	os.write_file(tmp_path, input)!
+	os.execute_opt('zig fmt ${tmp_path}')!
+	input_after_zig_fmt := os.read_file(tmp_path)!
+
+	res := if v.style != .tabs && has_space_indent(input) {
 		// Until support for spaces is extended to include features like viewing diffs,
 		// just zig fmt when a space-indented file is encountered without using the force flag.
-		os.execute_opt('zig fmt ${path}')!
-		return
+		input_after_zig_fmt
+	} else {
+		format(input, input_after_zig_fmt)!
 	}
 
-	res := format(input, os.file_name(path))!
 	if !v.write && !v.diff && !v.list {
 		print(res)
 		flush_stdout()

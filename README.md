@@ -34,10 +34,10 @@ Flags:
   -w  --write         Modifies non-conforming files in-place.
   -l  --list          Prints paths of non-conforming files. Exits with an error if any are found.
   -d  --diff          Prints differences of non-conforming files. Exits with an error if any are found.
-  -f  --force         Enforces indentation style instead of detecting it.
-      --spaces        [TODO] Allows usage of all features when kept in custody in a space-indented codebase.
-                      If the flag is passed without specifying a number, 4 spaces are used for indentation.
-                      Tabs are used by default.
+      --style         [possible values: 'tabs', 'smart', '<num>'(spaces)].
+                      - tabs: used by default.
+                      - smart: detects the indentation style.
+                      - <num>: [TODO] currently, passing a number uses the default zig fmt indentation of 4 spaces.
   -h  --help          Prints help information.
   -v  --version       Prints version information.
 
