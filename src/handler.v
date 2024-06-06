@@ -24,8 +24,30 @@ fn format(input string, fname string) !string {
 	return res.join_lines() + '\n'
 }
 
+// Detect indentation style.
+fn has_space_indent(input string) bool {
+	input_lines := input.split_into_lines()
+	for l in input_lines#[..50] {
+		if l != '' {
+			match l[0] {
+				` ` { return true }
+				`\t` { return false }
+				else { continue }
+			}
+		}
+	}
+	return true
+}
+
 fn (mut v Vzit) handle(path string) ! {
 	input := os.read_file(path)!
+	if has_space_indent(input) {
+		// Until support for spaces is extended to include features like viewing diffs,
+		// just zig fmt when a space-indented file is encountered without using the force flag.
+		os.execute_opt('zig fmt ${path}')!
+		return
+	}
+
 	res := format(input, os.file_name(path))!
 	if !v.write && !v.diff && !v.list {
 		print(res)
