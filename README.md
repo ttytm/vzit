@@ -6,7 +6,7 @@
 [![][badge__build]](https://github.com/ttytm/vzit/actions?query=branch%3Amain)
 [![][badge__version]](https://github.com/ttytm/vzit/releases/latest)
 
-Enables the use of tabs in Zig projects while still utilizing `zig fmt` and allows viewing formatting diffs.
+Enables `zig fmt` formatting for projects that use tabs and allows viewing formatting diffs.
 
 ## Quick Start
 
@@ -17,7 +17,7 @@ Enables the use of tabs in Zig projects while still utilizing `zig fmt` and allo
 
 ## Feature Overview
 
-- Use tabs for indentation while using zig fmt (we don't want to miss out on the amazing work that goes into zig format).
+- Use tabs with `zig fmt` under the hood (no need to miss out on the amazing work that goes into it).
 - View diffs with your preferred tool.
 
 https://github-production-user-asset-6210df.s3.amazonaws.com/34311583/337395033-be5d0270-713f-495a-9f91-15665841eb64.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240606%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240606T184324Z&X-Amz-Expires=300&X-Amz-Signature=2df83e6313c9b80dfaab603825d552c4858a2876cbb7331afea85da1547f8097&X-Amz-SignedHeaders=host&actor_id=34311583&key_id=0&repo_id=802144933
