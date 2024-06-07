@@ -56,7 +56,7 @@ By default, formatted output is written to stdout.'
 				flag: .bool
 				name: 'diff'
 				abbrev: 'd'
-				description: 'Prints differences of non-conforming files. Exits with an error if any are found.'
+				description: "Prints differences of non-conforming files. Exits with an error if any are found.\n- The '${env_diff_tool}' environment variable allows setting a custom diff command."
 			},
 			cli.Flag{
 				flag: .string

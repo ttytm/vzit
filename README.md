@@ -34,6 +34,7 @@ Flags:
   -w  --write         Modifies non-conforming files in-place.
   -l  --list          Prints paths of non-conforming files. Exits with an error if any are found.
   -d  --diff          Prints differences of non-conforming files. Exits with an error if any are found.
+                      - The 'VZIT_DIFF_CMD' environment variable allows setting a custom diff command.
   -i  --indentation   Sets the indentation used [possible values: 'tabs', 'smart', '<num>'(spaces)].
                       - tabs: used by default.
                       - smart: based on the initial indentations in a file.
