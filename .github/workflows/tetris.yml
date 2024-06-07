@@ -45,6 +45,8 @@ jobs:
             ln -s $(brew --cellar)/glfw/3.4/lib/libglfw.dylib $(brew --cellar)/libepoxy/1.5.10/lib/libglfw.dylib
             ln -s $(brew --cellar)/glfw/3.4/include/GLFW $(brew --cellar)/libepoxy/1.5.10/include/GLFW
           fi
+      - name: Verify presence of differences
+        run: vzit -d . && exit 1 || exit 0
       - name: Format
         run: vzit -w .
       - name: Verify formatting
