@@ -50,8 +50,15 @@ jobs:
         with:
           name: ${{ matrix.artifact }}
           path: ${{ matrix.artifact }}
+      - name: Generate release name from tag "$GITHUB_REF_NAME"
+        if: github.ref_type == 'tag'
+        run: |
+          # E.g.: `v0.2.1` -> `vzit 0.2.1`
+          release_name="vzit ${GITHUB_REF_NAME:1}"
+          echo "RELEASE_NAME=$release_name" >> $GITHUB_ENV
       - name: Release artifacts
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ matrix.artifact }}
+          name:  ${{ env.RELEASE_NAME }}
