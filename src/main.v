@@ -69,7 +69,9 @@ By default, formatted output is written to stdout.'
 			cli.Command{
 				name: 'update'
 				description: 'Updates vizit to the latest version.'
-				execute: update
+				execute: fn (_ cli.Command) ! {
+					update() or { print_err_and_exit(err.msg()) }
+				}
 			},
 		]
 	}
