@@ -3,9 +3,9 @@ name: CI
 on:
   workflow_dispatch:
   push:
-    paths-ignore: ['**/*.md']
+    paths-ignore: ['**.md']
   pull_request:
-    paths-ignore: ['**/*.md']
+    paths-ignore: ['**.md']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name == 'main' && github.sha || github.ref }}
