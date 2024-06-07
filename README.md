@@ -6,7 +6,7 @@
 [![][badge__build]](https://github.com/ttytm/vzit/actions?query=branch%3Amain)
 [![][badge__version]](https://github.com/ttytm/vzit/releases/latest)
 
-Simple tool that enables the use of tabs in Zig projects and allows to view formatting diffs while still utilizing `zig fmt`. Written in V.
+Enables the use of tabs in Zig projects while still utilizing `zig fmt` and allows viewing formatting diffs.
 
 ## Quick Start
 
