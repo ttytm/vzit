@@ -79,11 +79,10 @@ fn (mut v Vzit) handle(path string) ! {
 	if v.write && !v.diff {
 		os.write_file(path, res)!
 	} else if v.diff {
-		res_tmp_path := os.join_path(tmp_dir, os.file_name(path))
-		os.write_file(res_tmp_path, res)!
-		println(diff.compare_files(path, res_tmp_path, env_overwrite_var: env_diff_tool)!)
+		os.write_file(tmp_path, res)!
+		println(diff.compare_files(path, tmp_path, env_overwrite_var: env_diff_tool)!)
 		if v.write {
-			os.mv(res_tmp_path, path)!
+			os.mv(tmp_path, path)!
 		}
 	}
 	if v.list {
