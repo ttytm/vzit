@@ -6,7 +6,7 @@
 [![][badge__build]](https://github.com/ttytm/vzit/actions?query=branch%3Amain)
 [![][badge__version]](https://github.com/ttytm/vzit/releases/latest)
 
-Enables `zig fmt` formatting for projects that use tabs and allows viewing formatting diffs.
+Uses `zig fmt` to format Zig code while allowing for tab indentation and diff viewing.
 
 ## Quick Start
 
