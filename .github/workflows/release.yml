@@ -64,3 +64,4 @@ jobs:
         with:
           files: ${{ matrix.artifact }}
           name: ${{ env.RELEASE_NAME }}
+          token: ${{ secrets.RELEASE_TOKEN }}
