@@ -25,51 +25,51 @@ enum IndentationStyle {
 
 fn main() {
 	mut app := cli.Command{
-		name: manifest.name
-		usage: '<path>
+		name:        manifest.name
+		usage:       '<path>
 
 ${manifest.description}
 By default, formatted output is written to stdout.'
-		version: '${manifest.version}@${@VMODHASH}'
-		posix_mode: true
+		version:     '${manifest.version}@${@VMODHASH}'
+		posix_mode:  true
 		pre_execute: verify
-		execute: run
-		defaults: struct {
-			man: false
-			help: cli.CommandFlag{true, true}
+		execute:     run
+		defaults:    struct {
+			man:     false
+			help:    cli.CommandFlag{true, true}
 			version: cli.CommandFlag{true, true}
 		}
-		flags: [
+		flags:       [
 			cli.Flag{
-				flag: .bool
-				name: 'write'
-				abbrev: 'w'
+				flag:        .bool
+				name:        'write'
+				abbrev:      'w'
 				description: 'Modifies non-conforming files in-place.'
 			},
 			cli.Flag{
-				flag: .bool
-				name: 'list'
-				abbrev: 'l'
+				flag:        .bool
+				name:        'list'
+				abbrev:      'l'
 				description: 'Prints paths of non-conforming files. Exits with an error if any are found.'
 			},
 			cli.Flag{
-				flag: .bool
-				name: 'diff'
-				abbrev: 'd'
+				flag:        .bool
+				name:        'diff'
+				abbrev:      'd'
 				description: "Prints differences of non-conforming files. Exits with an error if any are found.\n- The '${env_diff_tool}' environment variable allows setting a custom diff command."
 			},
 			cli.Flag{
-				flag: .string
-				name: 'indentation'
-				abbrev: 'i'
+				flag:        .string
+				name:        'indentation'
+				abbrev:      'i'
 				description: "Sets the indentation used [possible values: 'tabs', 'smart', '<num>'(spaces)].\n- tabs: used by default.\n- smart: based on the initial indentations in a file.\n- <num>: number of spaces."
 			},
 		]
-		commands: [
+		commands:    [
 			cli.Command{
-				name: 'update'
+				name:        'update'
 				description: 'Updates vizit to the latest version.'
-				execute: fn (_ cli.Command) ! {
+				execute:     fn (_ cli.Command) ! {
 					update() or { print_err_and_exit(err.msg()) }
 				}
 			},
@@ -80,9 +80,9 @@ By default, formatted output is written to stdout.'
 
 fn run(cmd cli.Command) ! {
 	mut v := Vzit{
-		write: cmd.flags.get_bool('write')!
-		list: cmd.flags.get_bool('list')!
-		diff: cmd.flags.get_bool('diff')!
+		write:       cmd.flags.get_bool('write')!
+		list:        cmd.flags.get_bool('list')!
+		diff:        cmd.flags.get_bool('diff')!
 		indentation: parse_indentation(cmd.flags.get_string('indentation')!)
 	}
 	for path in cmd.args {
