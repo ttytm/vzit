@@ -144,6 +144,6 @@ fn print_err(msg string) {
 
 @[noreturn]
 fn print_err_and_exit(msg string) {
-	eprintln(term.ecolorize(term.red, 'error: ') + msg)
+	print_err(msg)
 	exit(2)
 }
